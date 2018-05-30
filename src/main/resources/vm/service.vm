@@ -1,0 +1,17 @@
+package ${packageName}.service;
+
+import ${packageName}.repository.${TableName}Repository;
+import ${packageName}.domain.${TableName};
+import ${projectName}.common.base.BaseService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+* Created by if on 2017/11/22.
+* @author sunyifu
+*/
+@Service
+@Transactional(readOnly = true)
+public class ${TableName}Service  extends BaseService<${TableName},${TableName}Repository,Long>{
+
+}
