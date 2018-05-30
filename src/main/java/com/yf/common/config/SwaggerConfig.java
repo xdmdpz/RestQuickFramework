@@ -21,7 +21,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Techfantasy Visualization")
+                .title("title")
                 .version("1.1")
                 .build();
     }
