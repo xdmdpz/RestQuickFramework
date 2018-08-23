@@ -1,6 +1,6 @@
 package com.yf.core.mapper;
 
-import com.yf.core.domain.UserInfo;
+import com.yf.common.user.UserInfo;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 

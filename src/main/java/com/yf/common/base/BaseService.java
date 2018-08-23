@@ -1,6 +1,7 @@
 package com.yf.common.base;
 
 
+import com.yf.common.auth.AuthorizationUtils;
 import com.yf.common.exception.Exceptions;
 import com.yf.common.utils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +68,27 @@ public abstract class BaseService<T extends BaseEntity, R extends JpaRepository<
         return repository.save(entity);
 
     }
+    @Transactional(readOnly = false)
+    public void saveAll(List<T> list, HttpServletRequest request) {
+        list.forEach(entity -> {
+            entity.setCreateBy(AuthorizationUtils.getInstance().getUserId(request));
+            entity.setUpdateBy(AuthorizationUtils.getInstance().getUserId(request));
+        });
+        this.repository.saveAll(list);
+    }
 
+    /**
+     * 新增
+     *
+     * @param entity
+     */
+    @Transactional(readOnly = false)
+    public T create(T entity, HttpServletRequest request) {
+        entity.setCreateBy(AuthorizationUtils.getInstance().getUserId(request));
+        entity.setUpdateBy(AuthorizationUtils.getInstance().getUserId(request));
+        return this.create(entity);
+
+    }
     /**
      * 更新
      *
@@ -85,41 +107,25 @@ public abstract class BaseService<T extends BaseEntity, R extends JpaRepository<
      * @param entity
      */
     @Transactional(readOnly = false)
+    public T update(T entity, HttpServletRequest request) {
+        T update = repository.getOne((ID) entity.id);
+        BeanUtils.copyProperties(entity, update, new String[]{"id", "createTime", "delTag", "updateTime"});
+        entity.setUpdateBy(AuthorizationUtils.getInstance().getUserId(request));
+        return this.update(update);
+    }
+
+
+    /**
+     * 删除
+     *
+     * @param entity
+     */
+    @Transactional(readOnly = false)
     public void delete(T entity) {
         repository.delete(entity);
     }
 
-    /**
-     * 批量更新
-     *
-     * @param entitys
-     */
-    @Transactional(readOnly = false)
-    public void batchUpate(List<T> entitys) {
-        for (int i = 0; i < entitys.size(); i++) {
-            em.merge(entitys.get(i));
-            if (i % 30 == 0) {
-                em.flush();
-                em.clear();
-            }
-        }
-    }
 
-    /**
-     * 批量插入
-     *
-     * @param entitys
-     */
-    @Transactional(readOnly = false)
-    public void batchCreate(List<T> entitys) {
-        for (int i = 0; i < entitys.size(); i++) {
-            em.persist(entitys.get(i));
-            if (i % 30 == 0) {
-                em.flush();
-                em.clear();
-            }
-        }
-    }
 
 
     /**

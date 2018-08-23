@@ -18,8 +18,19 @@ public abstract class BaseEntity<ID extends Serializable> extends AbstractEntity
     protected Date createTime;
     protected Date updateTime;
     protected String delTag = "0";
-    protected String updateBy;
-    protected String createBy;
+    protected ID updateBy;
+    protected ID createBy;
+
+    public BaseEntity() {
+    }
+
+    public BaseEntity(ID id, Date createTime, Date updateTime, ID updateBy, ID createBy) {
+        this.id = id;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.updateBy = updateBy;
+        this.createBy = createBy;
+    }
 
 
     @Id
@@ -65,22 +76,32 @@ public abstract class BaseEntity<ID extends Serializable> extends AbstractEntity
     }
 
     @Column(name = "update_by", nullable = true)
-    public String getUpdateBy() {
+    public ID getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(String updateBy) {
+    public void setUpdateBy(ID updateBy) {
         this.updateBy = updateBy;
     }
 
     @Column(name = "create_by", nullable = true)
-    public String getCreateBy() {
+    public ID getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(String createBy) {
+    public void setCreateBy(ID createBy) {
         this.createBy = createBy;
     }
 
+    @PrePersist
+    public void PrePersist() {
+        this.updateTime = new Date();
+        this.createTime = new Date();
+    }
+
+    @PreUpdate
+    public void PreUpdate() {
+        this.updateTime = new Date();
+    }
 
 }

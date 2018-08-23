@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "project_info", schema = "demo")
+@Table(name = "project_info")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "")
 public class ProjectInfo extends BaseEntity<Long> implements Serializable {
