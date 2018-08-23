@@ -2,6 +2,14 @@
 
 基于springBoot 2的快速开发框架
 
+## 0823更新说明
+- 增加文件上传
+- 使用zimg做图片服务器
+- 增加权限管理
+- 示例项目使用h2数据库
+- 还有些文档没有补全 - - 
+
+
 ### 用的啥技术
 
 - Spring Boot 2.0
@@ -48,11 +56,7 @@
 ### Rest服务快速体验
 
 1. clone 项目
-2. 建一个名字为 `demo`的数据库 `utf8`的
-3. 修改配置文件中spring.jpa.hibernate.ddl-auto=update
-4. 修改数据库连接信息
-5. 启动项目
-6. `http://localhost:8080/swagger-ui.html` 直接测试接口即可
+2. `http://localhost:8080/swagger-ui.html` 直接测试接口即可
     
 ### 代码生成器体验
 
