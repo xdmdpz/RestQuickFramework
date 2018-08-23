@@ -47,7 +47,6 @@
     `create_by` int(20) i DEFAULT NULL COMMENT '创建人',
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `update_by` int(20)  DEFAULT NULL COMMENT '更新人',
-    `del_tag` char(1)  NOT NULL DEFAULT '0' COMMENT '删除标记',
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 ```
@@ -57,6 +56,7 @@
 ### Rest服务快速体验
 
 1. clone 项目
+2. 启动项目
 2. `http://localhost:8080/swagger-ui.html` 直接测试接口即可
     
 ### 代码生成器体验
