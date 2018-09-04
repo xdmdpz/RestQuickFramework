@@ -1,4 +1,4 @@
-package com.yf.common.file;
+package com.yf.modules.upload;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
-package com.yf.core.service;
+package com.yf.modules.projectInfo.service;
 
-import com.yf.core.repository.ProjectInfoRepository;
-import com.yf.core.domain.ProjectInfo;
+import com.yf.modules.projectInfo.repository.ProjectInfoRepository;
+import com.yf.modules.projectInfo.domain.ProjectInfo;
 import com.yf.common.base.BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

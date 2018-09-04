@@ -1,4 +1,4 @@
-package com.yf.common.login;
+package com.yf.modules.login;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

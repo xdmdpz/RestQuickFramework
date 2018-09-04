@@ -1,4 +1,4 @@
-package com.yf.core.domain;
+package com.yf.modules.projectInfo.domain;
 
 import com.yf.common.base.BaseEntity;
 import io.swagger.annotations.ApiModel;

@@ -1,6 +1,6 @@
-package ${projectName}.jpa;
+package ${projectName}.${tableName}.jpa;
 
-import ${packageName}.domain.${TableName};
+import ${packageName}.${tableName}.domain.${TableName};
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

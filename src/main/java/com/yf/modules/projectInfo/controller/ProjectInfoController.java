@@ -1,7 +1,7 @@
-package com.yf.core.controller;
+package com.yf.modules.projectInfo.controller;
 
-import com.yf.core.service.ProjectInfoService;
-import com.yf.core.domain.ProjectInfo;
+import com.yf.modules.projectInfo.service.ProjectInfoService;
+import com.yf.modules.projectInfo.domain.ProjectInfo;
 import com.yf.common.base.RestResponse;
 
 import io.swagger.annotations.*;

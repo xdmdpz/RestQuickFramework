@@ -1,4 +1,4 @@
-package com.yf.common.file;
+package com.yf.modules.upload;
 
 import com.yf.common.utils.MD5Util;
 import org.apache.commons.io.FilenameUtils;

@@ -1,4 +1,4 @@
-package ${packageName}.domain;
+package ${packageName}.${tableName}.domain;
 
 import ${projectName}.common.base.BaseEntity;
 import io.swagger.annotations.ApiModel;

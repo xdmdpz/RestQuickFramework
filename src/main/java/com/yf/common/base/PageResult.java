@@ -1,4 +1,4 @@
-package com.yf.common.domain;
+package com.yf.common.base;
 
 import com.github.pagehelper.Page;
 

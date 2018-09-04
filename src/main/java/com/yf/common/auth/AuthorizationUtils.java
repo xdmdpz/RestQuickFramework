@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.yf.common.base.RestResponse;
-import com.yf.common.user.UserInfo;
+import com.yf.modules.user.UserInfo;
 import org.hibernate.annotations.common.util.StringHelper;
 import org.springframework.web.method.HandlerMethod;
 

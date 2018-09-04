@@ -1,6 +1,6 @@
-package com.yf.core.repository;
+package com.yf.modules.projectInfo.repository;
 
-import com.yf.core.domain.ProjectInfo;
+import com.yf.modules.projectInfo.domain.ProjectInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.yf.common.file;
+package com.yf.modules.upload;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yf.common.base.BaseEntity;
@@ -168,7 +168,7 @@ public class FileInfo extends BaseEntity<Long> implements Serializable {
     @Override
     public String toString() {
         return "UploadFile{" +
-                "(文件)file=" + file +
+                "(文件)upload=" + file +
                 ",(文件大小)fileSize='" + fileSize + '\'' +
                 ",(文件md5)fileMD5='" + fileMd5 + '\'' +
                 ",(文件存在服务器名称)fullFileName='" + fullFileName + '\'' +

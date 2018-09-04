@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author sunyifu
- * @ClassName: VelocityHelper
+ * @ClassName: GeneratorProfileHelper
  * @Description: 生成器助手类
  * @date 2017年4月7日 下午5:55:02
  */
@@ -59,13 +59,13 @@ public class VelocityHelper {
         //去掉t_user  t_
         this.tableNameI = StringHelper.toRequestMappingName(tableName);
         //首字母大写
-        this.tableNameII = StringHelper.toEntityClassName(tableName);
+        this.tableNameII = StringHelper.toFirstCharUpperCase(StringHelper.underlineToCamel(tableName));
         //首字母小写
         this.tableNameIII = StringHelper.underlineToCamel(tableName);
         this.filePath = rootPath_java + relativePath + "/";
         this.fileName = filePath + tableNameII;
         this.projectName = projectName;
-        this.packageName = projectName + ".core";
+        this.packageName = projectName + ".modules";
         this.dataTable = dataTable;
 
         this.init();

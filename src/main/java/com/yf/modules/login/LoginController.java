@@ -1,12 +1,12 @@
-package com.yf.common.login;
+package com.yf.modules.login;
 
 import com.yf.common.auth.AccessToken;
 import com.yf.common.auth.AuthorizationAnnotation;
 import com.yf.common.auth.AuthorizationUtils;
 import com.yf.common.base.RestResponse;
 import com.yf.common.exception.Exceptions;
-import com.yf.common.user.UserInfo;
-import com.yf.common.user.UserInfoService;
+import com.yf.modules.user.UserInfo;
+import com.yf.modules.user.UserInfoService;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -56,7 +56,6 @@ public class LoginController {
             @ApiResponse(code = 403, message = "密码错误", response = RestResponse.class),
     })
     public RestResponse<AccessToken> login(HttpServletRequest request,RestResponse response) {
-
         if(AuthorizationUtils.getInstance().verify(request)){
             Long  userId = AuthorizationUtils.getInstance().getUserId(request.getHeader(AuthorizationUtils.HeaderTokenKey));
             UserInfo user = userInfoService.findOne(userId);
@@ -64,7 +63,6 @@ public class LoginController {
         } else {
             throw new Exceptions.ForbiddenException("token验证失败");
         }
-
     }
 
 
