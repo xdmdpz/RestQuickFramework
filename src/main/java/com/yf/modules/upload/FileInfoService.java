@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by if on 2017/11/22.
@@ -23,10 +25,11 @@ public class FileInfoService extends BaseService<FileInfo, FileInfoRepository, L
     private String filePath;
     @Autowired
     private ZimgClient zimgClient;
+
     /**
      * 文件上传
      *
-     * @param request  请求地址
+     * @param request 请求地址
      * @return
      * @throws IOException
      */
@@ -41,14 +44,13 @@ public class FileInfoService extends BaseService<FileInfo, FileInfoRepository, L
     /**
      * 图片上传
      *
-     * @param file  请求地址
      * @return
      * @throws IOException
      */
     @Transactional(readOnly = false)
-    public String  uploadImg(MultipartFile file) {
-        String path = zimgClient.guideBookUpload(file);
-        return path;
+    public String uploadImg(MultipartHttpServletRequest request) {
+        return zimgClient.guideBookUpload(request);
+
     }
 //    /**
 //     * 批量文件上传
@@ -66,7 +68,7 @@ public class FileInfoService extends BaseService<FileInfo, FileInfoRepository, L
     /**
      * 文件下载
      *
-     * @param fullFileName  全路径名
+     * @param fullFileName 全路径名
      * @return
      * @throws IOException
      */
@@ -74,6 +76,7 @@ public class FileInfoService extends BaseService<FileInfo, FileInfoRepository, L
         FileInfo fileInfo = repository.findFirstByFullFileName(fullFileName);
         return UploadKit.download(filePath, fileInfo);
     }
+
     public FileInfo findOneByFullFileName(String fullFileName) throws IOException {
         return repository.findFirstByFullFileName(fullFileName);
     }

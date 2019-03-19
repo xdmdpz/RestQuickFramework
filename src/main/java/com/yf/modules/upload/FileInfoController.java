@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -53,8 +54,8 @@ public class FileInfoController {
             @ApiResponse(code = 400, message = "参数验证失败", response = RestResponse.class),
 
     })
-    public RestResponse imgUpload(@ApiParam(value = "图片") @RequestParam MultipartFile file, RestResponse response) {
-        return response.success(fileInfoService.uploadImg(file));
+    public RestResponse imgUpload(@ApiParam(value = "图片") MultipartHttpServletRequest request, RestResponse response) {
+        return response.success(fileInfoService.uploadImg(request));
     }
 
     /**

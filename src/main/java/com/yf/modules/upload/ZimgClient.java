@@ -1,14 +1,21 @@
 package com.yf.modules.upload;
 
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,28 +39,23 @@ public class ZimgClient {
      * @param file 图片文件
      * @return 图表路径
      */
-    public String guideBookUpload(MultipartFile file) {
-
-        String fileName = file.getOriginalFilename();
-        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-        //将图片转换成字节流
-        ByteArrayOutputStream baos = ImagePreHandle.handleImage(file, suffix);
-        //headers信息
-        Map<String, String> headers = new HashMap<String, String>();
+    public String guideBookUpload(MultipartHttpServletRequest request) {
         //获取zimg服务器地址
         //接口信息
         String url = zimgUrl + "/upload";
+//        String suffix = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        headers.put("Content-type", suffix);
-        //发送post请求，并获取返回结果
-        String result = HttpUtil.binaryPost(url, headers, baos);
-        //将返回结果转换成对象
-        JSONObject jsonObject = new JSONObject(result);
-        //获取info字段所返回的对象
-        JSONObject info = jsonObject.getJSONObject("info");
-        //获取对象中的md5字段的值
-        String path = zimgUrl + "/" + info.getString("md5");
-        return path;
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+
+        params.add("file", new FileSystemResource(new File(file.getOriginalFilename())));
+        params.add("fileName",file.getName());
+
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(params, httpHeaders);
+        String result = restTemplate.postForObject(url, httpEntity, String.class);
+        return result;
+
     }
 
 
