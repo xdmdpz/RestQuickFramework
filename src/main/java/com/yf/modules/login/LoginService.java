@@ -1,8 +1,8 @@
 package com.yf.modules.login;
 
 import com.yf.common.exception.Exceptions;
-import com.yf.modules.user.UserInfo;
-import com.yf.modules.user.UserInfoService;
+import com.yf.modules.user.domain.UserInfo;
+import com.yf.modules.user.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

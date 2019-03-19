@@ -1,6 +1,8 @@
-package com.yf.modules.user;
+package com.yf.modules.user.service;
 
 import com.yf.common.base.BaseService;
+import com.yf.modules.user.domain.UserInfo;
+import com.yf.modules.user.repository.UserInfoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

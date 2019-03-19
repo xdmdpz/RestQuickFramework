@@ -94,7 +94,7 @@ public class UploadKit {
                 String tarpath = folderPath + "/" + newName;
                 File localFile = new File(tarpath);
                 file.transferTo(localFile);
-                FileInfo uploadFile = new FileInfo(fileSize, fileMD5,newName, originalFileName, fileName, suffixName, localFile);
+                FileInfo uploadFile = new FileInfo(fileSize, fileMD5, newName, originalFileName, fileName, suffixName, localFile);
                 return uploadFile;
             }
         }
@@ -113,8 +113,9 @@ public class UploadKit {
         String fileName = FilenameUtils.getName(filePath);
         return downloadAssist(filePath, fileName);
     }
+
     public static ResponseEntity<byte[]> download(String filePath, FileInfo fileInfo) throws UnsupportedEncodingException, IOException {
-        return downloadAssist(filePath+"/"+ fileInfo.getFullFileName(),fileInfo.getOriginFileName());
+        return downloadAssist(filePath + "/" + fileInfo.getFullFileName(), fileInfo.getOriginFileName());
     }
 
     /**

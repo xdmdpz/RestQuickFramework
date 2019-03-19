@@ -1,11 +1,9 @@
 package com.yf.generator;
 
-
 import com.yf.generator.domain.DataColumn;
 import com.yf.generator.domain.DataRow;
 import com.yf.generator.domain.DataTable;
 import com.yf.generator.tools.DbHepler;
-import com.yf.generator.tools.StringHelper;
 import com.yf.generator.tools.VelocityHelper;
 import com.yf.generator.utils.Contants;
 
@@ -71,21 +69,14 @@ public class Generator {
                 db_tableColumns.PrintTable(db_tableColumns);
 
                 try {
-                    String genPath = new StringBuilder()
-                            .append(Contants.GENERATE_CARBON)
-                            .append("/" )
-                            .append(Contants.GENERATE_PACKAGENAME)
-                            .append("/")
-                            .append(StringHelper.underlineToCamel(tableName))
-                            .toString();
-                    //自动生成实体类
-                    (new VelocityHelper(tableName, db_tableColumns, genPath + "/domain", Contants.GENERATE_PROJECTNAME)).GenerateEntity();
-                    //自动生成jpa接口文件
-                    (new VelocityHelper(tableName, db_tableColumns, genPath + "/repository", Contants.GENERATE_PROJECTNAME)).GenerateJpa();
-                    //自动生成Service服务类文件
-                    (new VelocityHelper(tableName, db_tableColumns, genPath + "/service", Contants.GENERATE_PROJECTNAME)).GenerateService();
-                    //自动生成Controller控制类文件
-                    (new VelocityHelper(tableName, db_tableColumns, genPath + "/controller", Contants.GENERATE_PROJECTNAME)).GenerateController();
+
+                    //生成实体类
+                    new VelocityHelper(tableName, db_tableColumns)
+                            .GenerateEntity()
+                            .GenerateJpa()
+                            .GenerateService()
+                            .GenerateController();
+
 
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

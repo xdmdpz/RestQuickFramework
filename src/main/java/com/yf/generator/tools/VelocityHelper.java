@@ -3,6 +3,7 @@ package com.yf.generator.tools;
 
 import com.yf.generator.domain.BaseDataRow;
 import com.yf.generator.domain.DataTable;
+import com.yf.generator.utils.Contants;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
+
 
 /**
  * @author sunyifu
@@ -25,8 +27,7 @@ public class VelocityHelper {
             .getResource("").getFile()
             + "../../src/main";
     private String rootPath_java = rootPath + "/java";
-    private String rootPath_webapp = rootPath + "/webapp/WEB-INF";
-
+    private String genPath = "";
     //表名
     private String tableName;
     //去掉第一个下划线之前的
@@ -48,13 +49,8 @@ public class VelocityHelper {
     private VelocityEngine velocityEngine = null;
     private VelocityContext velocityContext = null;
 
-    private static final String columnlist = "columnlist";
 
-    public VelocityHelper() {
-    }
-
-    public VelocityHelper(String tableName, DataTable dataTable,
-                          String relativePath, String projectName) {
+    public VelocityHelper(String tableName, DataTable dataTable) {
         this.tableName = tableName;
         //去掉t_user  t_
         this.tableNameI = StringHelper.toRequestMappingName(tableName);
@@ -62,9 +58,11 @@ public class VelocityHelper {
         this.tableNameII = StringHelper.toFirstCharUpperCase(StringHelper.underlineToCamel(tableName));
         //首字母小写
         this.tableNameIII = StringHelper.underlineToCamel(tableName);
-        this.filePath = rootPath_java + relativePath + "/";
-        this.fileName = filePath + tableNameII;
-        this.projectName = projectName;
+        //文件生成路径
+        this.genPath = rootPath_java + Contants.GENERATE_CARBON + "/" + Contants.GENERATE_PACKAGENAME + "/" + StringHelper.underlineToCamel(tableName) + "/";
+
+
+        this.projectName = Contants.GENERATE_PROJECTNAME;
         this.packageName = projectName + ".modules";
         this.dataTable = dataTable;
 
@@ -72,25 +70,43 @@ public class VelocityHelper {
     }
 
     /**
-     * @return void
-     * @throws
-     * @Title: generateEntity
-     * @Description: 生成实体类Java文件
+     * 生成Service服务类文件
      */
-    public void GenerateEntity() {
-        List<BaseDataRow> columnlist = dataTable.ConvertDataTableToList(dataTable);
-        for (BaseDataRow data : columnlist) {
-            if (!data.getId_name().equals("")) {
-                //因为主键名称不统一 所以动态传入
-                velocityContext.put("id_name", data.getId_name());
-                if (!data.getId_name().equals(""))
-                    velocityContext.put("table_name", data.getTable_name());
-                if (!data.getId_name().equals(""))
-                    velocityContext.put("db_name", data.getDb_name());
-            }
-        }
-        velocityContext.put("columnlist", columnlist);
-        GenerateFile(".java", "/vm/entity.vm");
+    public VelocityHelper GenerateService() {
+        return GenerateFile(
+                Contants.GENERATE_SERVICE_PATH,
+                Contants.GENERATE_SUFFIX_SERVICE,
+                "/vm/service.vm");
+    }
+
+    /**
+     * 生成Controller控制类文件
+     */
+    public VelocityHelper GenerateController() {
+        return GenerateFile(
+                Contants.GENERATE_CONTROLLER_PATH,
+                Contants.GENERATE_SUFFIX_CONTROLLER,
+                "/vm/controller.vm");
+    }
+
+    /**
+     * 生成Controller控制类文件
+     */
+    public VelocityHelper GenerateJpa() {
+        return GenerateFile(
+                Contants.GENERATE_JPA_PATH,
+                Contants.GENERATE_SUFFIX_JPA,
+                "/vm/jpa.vm");
+    }
+
+    /**
+     * 生成实体类Java文件
+     */
+    public VelocityHelper GenerateEntity() {
+        return GenerateFile(
+                Contants.GENERATE_ENTITY_PATH,
+                Contants.GENERATE_SUFFIX_ENTITY,
+                "/vm/entity.vm");
     }
 
     /**
@@ -99,8 +115,12 @@ public class VelocityHelper {
      * @param suffix       生成文件后缀 比如".java"
      * @param templatePath 模板路径
      */
-    public void GenerateFile(String suffix, String templatePath) {
-        Template t = velocityEngine.getTemplate(templatePath, "UTF-8");
+    private VelocityHelper GenerateFile(String path, String suffix, String templatePath) {
+        //文件路径
+        this.filePath = this.genPath + path;
+        //文件全路径 无后缀
+        this.fileName = this.filePath + tableNameII;
+        Template t = velocityEngine.getTemplate(templatePath, Contants.GENERATE_FILE_ENCODING);
         File dir = new File(filePath);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -116,13 +136,14 @@ public class VelocityHelper {
         } finally {
             pw.close();
         }
+        return this;
 
     }
 
     /**
      * 参数初始化
      */
-    public void init() {
+    private void init() {
         velocityEngine = new VelocityEngine();
         velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         velocityEngine.setProperty("classpath.resource.loader.class",
@@ -135,37 +156,17 @@ public class VelocityHelper {
         velocityContext.put("TableName", tableNameII);
         velocityContext.put("projectName", projectName);
         velocityContext.put("packageName", packageName);
+        List<BaseDataRow> columns = dataTable.ConvertDataTableToList(dataTable);
+        for (BaseDataRow data : columns) {
+            if (!data.getId_name().equals("")) {
+                //因为主键名称不统一 所以动态传入
+                velocityContext.put("id_name", data.getId_name());
+                if (!data.getId_name().equals(""))
+                    velocityContext.put("table_name", data.getTable_name());
+                if (!data.getId_name().equals(""))
+                    velocityContext.put("db_name", data.getDb_name());
+            }
+        }
+        velocityContext.put("columns", columns);
     }
-
-
-    /**
-     *   
-     *
-     * @Title: GenerateToService
-     * @Description: 自动生成Service服务类文件
-     */
-    public void GenerateService() {
-        velocityContext.put(columnlist, dataTable.ConvertDataTableToList(dataTable));
-        GenerateFile("Service.java", "/vm/service.vm");
-    }
-
-    /**
-     * @Title: GenerateToController
-     * @Description: 自动生成Controller控制类文件
-     */
-    public void GenerateController() {
-        velocityContext.put(columnlist, dataTable.ConvertDataTableToList(dataTable));
-        GenerateFile("Controller.java", "/vm/controller.vm");
-
-    }
-
-    /**
-     * @Title: GenerateToController
-     * @Description: 自动生成Controller控制类文件
-     */
-    public void GenerateJpa() {
-        velocityContext.put(columnlist, dataTable.ConvertDataTableToList(dataTable));
-        GenerateFile("Repository.java", "/vm/jpa.vm");
-    }
-
 }

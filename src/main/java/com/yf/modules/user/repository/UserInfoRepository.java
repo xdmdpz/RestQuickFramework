@@ -1,5 +1,6 @@
-package com.yf.modules.user;
+package com.yf.modules.user.repository;
 
+import com.yf.modules.user.domain.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

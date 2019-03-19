@@ -54,8 +54,8 @@ public class FileInfoController {
             @ApiResponse(code = 400, message = "参数验证失败", response = RestResponse.class),
 
     })
-    public RestResponse imgUpload(@ApiParam(value = "图片") MultipartHttpServletRequest request, RestResponse response) {
-        return response.success(fileInfoService.uploadImg(request));
+    public RestResponse imgUpload(@ApiParam(value = "图片") @RequestParam MultipartFile file, RestResponse response) {
+        return response.success(fileInfoService.uploadImg(file));
     }
 
     /**

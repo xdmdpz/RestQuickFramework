@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.yf.common.base.RestResponse;
-import com.yf.modules.user.UserInfo;
+import com.yf.modules.user.domain.UserInfo;
 import org.hibernate.annotations.common.util.StringHelper;
 import org.springframework.web.method.HandlerMethod;
 
@@ -32,17 +32,15 @@ public class AuthorizationUtils {
 
     private static String secret = "#KrzQ!XYo%LVm1Igi7SUdh!8Xss7rz63BCyJlDZsq!1WFe0qqJJvsl%4Rt4DWgke";
 
-    private static String iss = "TechFantasy";
+    private static String iss = "xdmdpz";
 
-    private static String sub = "NebulaData";
+    private static String sub = "RestQuickFramework";
 
     public static final String HeaderTokenKey = "token";
 
 
     private static class AuthorizationUtilsInstance {
-
         private static final AuthorizationUtils INSTANCE = new AuthorizationUtils();
-
     }
 
     private AuthorizationUtils() {

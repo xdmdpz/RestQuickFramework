@@ -30,7 +30,6 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String _401 = "";
         if (request.getMethod().equals("OPTIONS")) {
             //跨域放行
             return true;

@@ -1,4 +1,4 @@
-package com.yf.modules.user;
+package com.yf.modules.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

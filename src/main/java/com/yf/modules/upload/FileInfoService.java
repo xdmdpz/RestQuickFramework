@@ -48,22 +48,10 @@ public class FileInfoService extends BaseService<FileInfo, FileInfoRepository, L
      * @throws IOException
      */
     @Transactional(readOnly = false)
-    public String uploadImg(MultipartHttpServletRequest request) {
-        return zimgClient.guideBookUpload(request);
+    public ZimgInfo uploadImg(MultipartFile file) {
+        return zimgClient.guideBookUpload(file);
 
     }
-//    /**
-//     * 批量文件上传
-//     *
-//     * @param request 请求地址
-//     * @return
-//     */
-//    @Transactional(readOnly = false)
-//    public List<FileInfo> uploads(HttpServletRequest request){
-//        List<FileInfo> files = UploadKit.getFiles(request, folderPath);
-//        super.batchCreate(files);
-//        return files;
-//    }
 
     /**
      * 文件下载

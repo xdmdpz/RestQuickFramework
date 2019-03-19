@@ -6,6 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 捕捉自定义异常
+ *
+ * 可以根据需要更改HTTP响应码
+ *
+ * 有的系统要求所有请求都报200，然后根据错误码来看状态
+ *
+ * 可以更改下面方法的ResponseStatus
+ *
+ */
 @RestController
 public class ExceptionAdvice {
 

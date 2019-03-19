@@ -1,6 +1,8 @@
 package com.yf.common.config;
 
 import com.yf.common.auth.AuthorizationInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -34,16 +36,13 @@ public class WebConfig implements WebMvcConfigurer {
         InterceptorRegistration addInterceptor = registry.addInterceptor(getAuthorizationInterceptor());
         addInterceptor.addPathPatterns("/**");
     }
-    @Bean
-    public RestTemplate restTemplate(ClientHttpRequestFactory factory){
-        return new RestTemplate(factory);
-    }
+    @Autowired
+    private RestTemplateBuilder builder;
 
     @Bean
-    public ClientHttpRequestFactory simpleClientHttpRequestFactory(){
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setReadTimeout(5000);//ms
-        factory.setConnectTimeout(15000);//ms
-        return factory;
+    public RestTemplate restTemplate() {
+
+        return builder.build();
     }
+
 }

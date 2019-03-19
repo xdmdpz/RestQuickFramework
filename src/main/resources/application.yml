@@ -46,6 +46,14 @@ spring:
         serialization:
             write-dates-as-timestamps: true
         time-zone: GMT+8
+    data:
+      web:
+        pageable:
+          default-page-size: 20
+          page-parameter: page
+          size-parameter: size
+
+
 
 
 mybatis:

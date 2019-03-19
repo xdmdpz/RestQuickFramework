@@ -1,4 +1,4 @@
-package com.yf.modules.upload;
+package com.yf.common.utils;
 
 import com.yf.common.exception.Exceptions;
 import org.springframework.web.multipart.MultipartFile;
