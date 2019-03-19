@@ -51,7 +51,15 @@ public class ZimgClient {
                 .post(requestBody)
                 .build();
         try {
-            ZimgResponse zimgResponse = new ObjectMapper().readValue(okHttpClient.newCall(request).execute().body().string(), ZimgResponse.class);
+            ZimgResponse zimgResponse = new ObjectMapper()
+                    .readValue(
+                            okHttpClient
+                                    .newCall(request)
+                                    .execute()
+                                    .body()
+                                    .string(),
+                            ZimgResponse.class);
+
             return Optional.ofNullable(zimgResponse.getInfo())
                     .orElseThrow(() -> new Exceptions.DataValidationFailedException("文件上传失败"));
 
