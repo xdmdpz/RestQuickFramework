@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name="${table_name}", schema = "${db_name}")
+@Table(name="${table_name}")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "")
 public class ${TableName} extends BaseEntity<Long> implements Serializable{
