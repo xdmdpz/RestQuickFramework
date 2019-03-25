@@ -5,7 +5,6 @@ import com.yf.generator.domain.DataRow;
 import com.yf.generator.domain.DataTable;
 import com.yf.generator.tools.DbHepler;
 import com.yf.generator.tools.VelocityHelper;
-import com.yf.generator.utils.Contants;
 
 import java.util.List;
 
