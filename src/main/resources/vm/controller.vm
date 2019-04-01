@@ -76,7 +76,7 @@ public class ${TableName}Controller {
     public RestResponse update(@ApiParam(value = "实体", required = true)
                                  @RequestBody ${TableName} ${tableName},
                                RestResponse response) {
-        return response.success(${tableName}Service.update(${tableName}Service.findOne(${tableName})));
+        return response.success(${tableName}Service.update(${tableName}));
     }
 
 	/**
