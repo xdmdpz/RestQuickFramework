@@ -1,9 +1,10 @@
 package com.yf.generator.tools;
 
 
+import com.yf.generator.Contants;
 import com.yf.generator.domain.BaseDataRow;
 import com.yf.generator.domain.DataTable;
-import com.yf.generator.utils.Contants;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -156,6 +157,7 @@ public class VelocityHelper {
         velocityContext.put("TableName", tableNameII);
         velocityContext.put("projectName", projectName);
         velocityContext.put("packageName", packageName);
+        velocityContext.put("idType",Contants.GENERATE_ID_TYPE);
         List<BaseDataRow> columns = dataTable.ConvertDataTableToList(dataTable);
         for (BaseDataRow data : columns) {
             if (!data.getId_name().equals("")) {

@@ -1,49 +1,32 @@
 package ${packageName}.${tableName}.domain;
 
-import ${projectName}.common.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import javax.persistence.Column;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import ${projectName}.core.base.BaseEntity;
+
+import lombok.*;
+import io.swagger.annotations.*;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="${table_name}")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "")
-public class ${TableName} extends BaseEntity<Long> implements Serializable{
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Builder
+public class ${TableName} extends BaseEntity<${idType}> implements Serializable{
 #foreach($item in $columns)
     #if(!$item.column_name.equals("create_time") &&
         !$item.column_name.equals("update_time") &&
-        !$item.column_name.equals("create_by") &&
-        !$item.column_name.equals("update_by") &&
+        !$item.column_name.equals("create_by")   &&
+        !$item.column_name.equals("update_by")   &&
         !$item.column_name.equals("del_tag")     &&
         !$item.column_name.equals("id"))
-
-    private ${item.type} ${item.columnName};
-    #end
-#end
-#foreach($item in $columns)
-    #if(!$item.column_name.equals("create_time") &&
-        !$item.column_name.equals("update_time") &&
-        !$item.column_name.equals("create_by") &&
-        !$item.column_name.equals("update_by") &&
-        !$item.column_name.equals("del_tag")  &&
-        !$item.column_name.equals("id"))
-    public void set${item.columnNameII}(${item.type} ${item.columnName}){
-    	this.${item.columnName} = ${item.columnName};
-    }
-    @Basic
     @ApiModelProperty(value = "${item.desc}")
     @Column(name = "${item.column_name}")
-    public ${item.type} get${item.columnNameII}(){
-        return this.${item.columnName};
-    }
+    @Basic
+    private ${item.type} ${item.columnName};
     #end
-
 #end
 
 

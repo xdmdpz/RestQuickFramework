@@ -1,17 +1,13 @@
 package com.yf.modules.login;
 
-import com.yf.common.auth.AccessToken;
-import com.yf.common.auth.AuthorizationAnnotation;
-import com.yf.common.auth.AuthorizationUtils;
-import com.yf.common.base.RestResponse;
-import com.yf.common.exception.Exceptions;
+import com.yf.core.auth.AccessToken;
+import com.yf.core.auth.AuthorizationAnnotation;
+import com.yf.core.auth.AuthorizationUtils;
+import com.yf.core.base.RestResponse;
+import com.yf.core.exception.Exceptions;
 import com.yf.modules.user.domain.UserInfo;
 import com.yf.modules.user.service.UserInfoService;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.apache.log4j.Logger;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,44 +18,42 @@ import javax.servlet.http.HttpServletRequest;
  * Created by xdmdpz on 2018/6/26.
  */
 @RestController
-@ApiModel("系统登录")
 @RequestMapping("api")
 @AuthorizationAnnotation.RequireValidate
+@Api(tags = "登录")
 public class LoginController {
-
-    public static final Logger log = Logger.getLogger(LoginController.class);
 
     @Autowired
     private LoginService loginService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private AuthorizationUtils authorizationUtils;
 
-    @ResponseBody
     @PostMapping("login")
     @AuthorizationAnnotation.NoRequireValidate
     @ApiOperation(value = "用户登录接口", notes = "通过用户名和密码登录")
     @ApiResponses({
             @ApiResponse(code = 200, message = "成功"),
-            @ApiResponse(code = 400, message = "参数验证失败", response = RestResponse.class),
-            @ApiResponse(code = 403, message = "密码错误", response = RestResponse.class),
-            @ApiResponse(code = 404, message = "用户名不存在", response = RestResponse.class),
+            @ApiResponse(code = 400, message = "参数验证失败"),
+            @ApiResponse(code = 403, message = "密码错误"),
+            @ApiResponse(code = 404, message = "用户名不存在"),
     })
-    public RestResponse<AccessToken> login(@RequestBody LoginContext loginContext,RestResponse response) {
+    public  RestResponse<AccessToken> login(@RequestBody LoginContext loginContext) {
         UserInfo user = loginService.login(loginContext);
-        return response.success(AuthorizationUtils.getInstance().create(user));
+        return RestResponse.success(authorizationUtils.create(user.getId(),user.getUsername(),user.getType()));
     }
-    @ResponseBody
     @GetMapping("token")
     @ApiOperation(value = "换取token", notes = "token失效前换取token")
     @ApiResponses({
             @ApiResponse(code = 200, message = "成功"),
-            @ApiResponse(code = 403, message = "密码错误", response = RestResponse.class),
+            @ApiResponse(code = 403, message = "密码错误"),
     })
-    public RestResponse<AccessToken> login(HttpServletRequest request,RestResponse response) {
-        if(AuthorizationUtils.getInstance().verify(request)){
-            Long  userId = AuthorizationUtils.getInstance().getUserId(request.getHeader(AuthorizationUtils.HeaderTokenKey));
+    public RestResponse<AccessToken> login(HttpServletRequest request) {
+        if(authorizationUtils.verify(request)){
+            Integer  userId = authorizationUtils.getUserId(request);
             UserInfo user = userInfoService.findOne(userId);
-            return response.success(AuthorizationUtils.getInstance().create(user));
+            return RestResponse.success(authorizationUtils.create(userId,user.getUsername(),user.getType()));
         } else {
             throw new Exceptions.ForbiddenException("token验证失败");
         }

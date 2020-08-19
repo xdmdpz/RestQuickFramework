@@ -1,6 +1,6 @@
 package com.yf.modules.user.service;
 
-import com.yf.common.base.BaseService;
+import com.yf.core.base.BaseService;
 import com.yf.modules.user.domain.UserInfo;
 import com.yf.modules.user.repository.UserInfoRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
-public class UserInfoService extends BaseService<UserInfo, UserInfoRepository, Long> {
+public class UserInfoService extends BaseService<UserInfo, UserInfoRepository, Integer> {
     public List<UserInfo> findByUsername(String username) {
         return this.repository.findByUsername(username);
     }

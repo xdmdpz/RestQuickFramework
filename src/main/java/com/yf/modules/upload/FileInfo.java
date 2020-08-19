@@ -1,7 +1,8 @@
 package com.yf.modules.upload;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.yf.common.base.BaseEntity;
+import com.yf.core.base.BaseEntity;
+import com.yf.core.upload.UploadFileInfo;
 
 import javax.persistence.*;
 import java.io.File;
@@ -77,7 +78,14 @@ public class FileInfo extends BaseEntity<Long> implements Serializable {
     public void setConversion(String conversion) {
         this.conversion = conversion;
     }
-
+    public FileInfo(UploadFileInfo uploadFileInfo) {
+        this.fileSize = uploadFileInfo.getFileSize();
+        this.fileMd5 = uploadFileInfo.getFileMd5();
+        this.fullFileName = uploadFileInfo.getFullFileName();
+        this.originFileName = uploadFileInfo.getOriginFileName();
+        this.fileName = uploadFileInfo.getFileName();
+        this.suffixName = uploadFileInfo.getOriginFileName();
+    }
     public FileInfo(String fileSize, String fileMd5, String fullFileName, String originFileName, String fileName, String suffixName, File file) {
         this.fileSize = fileSize;
         this.fileMd5 = fileMd5;

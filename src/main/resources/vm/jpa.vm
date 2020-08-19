@@ -1,18 +1,15 @@
-package ${projectName}.${tableName}.jpa;
+package ${projectName}.${tableName};
 
-import ${packageName}.${tableName}.domain.${TableName};
+import ${packageName}.${tableName}.domain.${TableName};;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
-import org.apache.log4j.Logger;
 
 /**
 * Created by if on 2017/11/22.
 */
 @Repository
-public interface ${TableName}Repository extends JpaRepository<${TableName}, Long>,JpaSpecificationExecutor<${TableName}>{
-
-
-	
+public interface ${TableName}Repository extends JpaRepository<${TableName}, ${idType}>,JpaSpecificationExecutor<${TableName}>{
 }
 

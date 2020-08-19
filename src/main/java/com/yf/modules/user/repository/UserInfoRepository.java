@@ -11,7 +11,7 @@ import java.util.List;
  * Created by if on 2017/11/22.
  */
 @Repository
-public interface UserInfoRepository extends JpaRepository<UserInfo, Long>, JpaSpecificationExecutor<UserInfo> {
+public interface UserInfoRepository extends JpaRepository<UserInfo, Integer>, JpaSpecificationExecutor<UserInfo> {
     List<UserInfo> findByUsername(String username);
 }
 

@@ -2,11 +2,10 @@ package ${packageName}.${tableName}.controller;
 
 import ${packageName}.${tableName}.service.${TableName}Service;
 import ${packageName}.${tableName}.domain.${TableName};
-import ${projectName}.common.base.RestResponse;
+import ${projectName}.core.base.RestResponse;
 
 
 import io.swagger.annotations.*;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,102 +17,67 @@ import java.util.List;
 @RequestMapping("api")
 public class ${TableName}Controller {
 
-	private static Logger logger = Logger.getLogger(${TableName}Controller.class);
-
 	@Autowired
 	private ${TableName}Service ${tableName}Service;
 
-	/**
-	* 获取列表
-	*
-	* @param page     页码
-	* @param size     分页大小
-	* @param response
-	* @return
-	*/
 	@ApiOperation(value = "分页查询所有", notes = "")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "查询成功"),
-		@ApiResponse(code = 404, message = "查询失败", response = RestResponse.class)
+		@ApiResponse(code = 400, message = "参数验证失败")
 	})
-	@GetMapping("${tableName}s")
-    public RestResponse<Page<${TableName}>> findPage(Pageable pageable,RestResponse response) {
-		return response.success(${tableName}Service.findPage(pageable));
+	@GetMapping("${tableName}")
+    public RestResponse<Page<${TableName}>> findPage(@RequestParam(defaultValue = "0") Integer page,
+                                                     @RequestParam(defaultValue = "15") Integer size,
+                                                     @RequestParam(defaultValue = "") String order) {
+		return RestResponse.success(
+                        ${tableName}Service.findPage(
+                                PageRequest.of(page, size,
+                                        Sort.by(Sort.Direction.DESC, order.equals("") ? "createTime" : order)
+                                )
+                        )
+                );
 	}
 
-	/**
-	* 新增
-	*
-	* @param ${tableName} 新增实体，前端数据需要 JSON.stringify(data)
-	* @param response
-	* @return
-	*/
     @ApiOperation(value = "新增", notes = "")
     @ApiResponses({
         @ApiResponse(code = 200, message = "添加成功"),
-        @ApiResponse(code = 400, message = "参数验证失败", response = RestResponse.class)
+        @ApiResponse(code = 400, message = "参数验证失败")
     })
     @PostMapping("${tableName}")
-    public RestResponse create(@ApiParam(value = "实体", required = true)
-                                 @RequestBody ${TableName} ${tableName},
-                               RestResponse response) {
-        return response.success(${tableName}Service.create(${tableName}));
+    public RestResponse<?> create(@RequestBody ${TableName} ${tableName}) {
+        ${tableName}Service.create(${tableName});
+        return RestResponse.success();
     }
 
-	/**
-	* 更新
-	*
-	* @param ${tableName} 更新实体，前端数据需要 JSON.stringify(data)
-	* @param response
-	* @return
-	*/
     @ApiOperation(value = "修改", notes = "")
     @ApiResponses({
-        @ApiResponse(code = 201, message = "修改成功"),
-        @ApiResponse(code = 400, message = "参数验证失败", response = RestResponse.class)
+        @ApiResponse(code = 200, message = "修改成功"),
+        @ApiResponse(code = 400, message = "参数验证失败")
     })
     @PatchMapping("${tableName}")
-    public RestResponse update(@ApiParam(value = "实体", required = true)
-                                 @RequestBody ${TableName} ${tableName},
-                               RestResponse response) {
-        return response.success(${tableName}Service.update(${tableName}));
+    public RestResponse<?> update(@RequestBody ${TableName} ${tableName}) {
+        ${tableName}Service.update(${tableName});
+        return RestResponse.success();
     }
 
-	/**
-	* 删除
-	*
-	* @param id 主键
-	* @param response
-	* @return
-	*/
     @ApiOperation(value = "删除", notes = "")
     @ApiResponses({
-        @ApiResponse(code = 201, message = "修改成功"),
-        @ApiResponse(code = 400, message = "参数验证失败", response = RestResponse.class)
+        @ApiResponse(code = 200, message = "删除成功"),
+        @ApiResponse(code = 400, message = "参数验证失败")
     })
-    @DeleteMapping("${tableName}")
-    public RestResponse delete(@ApiParam(value = "主键", required = true)
-                                 @RequestParam Long id,
-                               RestResponse response) {
+    @DeleteMapping("${tableName}/{id}")
+    public RestResponse<?> delete(@RequestParam Integer id) {
         ${tableName}Service.delete(${tableName}Service.findOne(id));
-        return response.success();
+        return RestResponse.success();
     }
-    /**
-    * 根据ID查找
-    *
-    * @param id       主键
-    * @param response
-    * @return
-    */
+
     @ApiOperation(value = "通过主键查找", notes = "")
     @ApiResponses({
         @ApiResponse(code = 200, message = "查询成功"),
-        @ApiResponse(code = 404, message = "查询失败", response = RestResponse.class)
+        @ApiResponse(code = 400, message = "参数错误")
     })
-    @GetMapping("${tableName}")
-    public RestResponse<${TableName}> findOne(@ApiParam(value = "主键", required = true)
-                                  @RequestParam Long id,
-                                RestResponse response) {
-        return response.success(${tableName}Service.findOne(id));
+    @GetMapping("${tableName}/{id}")
+    public RestResponse<${TableName}> findOne(@PathVariable Integer id) {
+        return RestResponse.success(${tableName}Service.findOne(id));
     }
 }

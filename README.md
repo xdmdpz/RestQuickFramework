@@ -2,23 +2,29 @@
 
 基于springBoot 2的快速开发框架
 
+## 20200818更新日志
+
+- 优化了下代码
+- 优化了下代码生成器
+- 加入了 Lombok 
+- 更改文件上传 不与数据库强关联
+
 ## 0823更新说明
 - 增加文件上传
 - 使用zimg做图片服务器
     - `bin/zimg.sh`可以使用docker启动一个zimg的服务
 - 增加权限管理
-- 示例项目使用h2数据库
 - 还有些文档没有补全 - - 
 
 
 ### 用的啥技术
 
-- Spring Boot 2.0
-- Spring Framework 5+
-- Spring MVC 5+
+- Spring Boot 2+
+- Spring Framework 
+- Spring MVC 
 - Spring Data Jpa
-- Mybatis 3.4
-- velocity 1.7 主要用来生成代码
+- lombok 
+- velocity 代码生成
 
 ### 为啥要整这个项目
 
@@ -44,7 +50,7 @@
     `project_name` varchar(50) DEFAULT NULL COMMENT '项目名称',
     `project_desc` varchar(50) DEFAULT NULL COMMENT '项目描述',
     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by` int(20) i DEFAULT NULL COMMENT '创建人',
+    `create_by` int(20)  DEFAULT NULL COMMENT '创建人',
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `update_by` int(20)  DEFAULT NULL COMMENT '更新人',
     PRIMARY KEY (`id`)
@@ -56,8 +62,9 @@
 ### Rest服务快速体验
 
 1. clone 项目
-2. 启动项目
-2. `http://localhost:8080/swagger-ui.html` 直接测试接口即可
+2. 执行下建库SQL
+3. 启动项目
+4. `http://localhost:8080/swagger-ui.html` 直接测试接口即可
     
 ### 代码生成器体验
 

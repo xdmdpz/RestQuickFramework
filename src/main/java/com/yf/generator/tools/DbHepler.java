@@ -2,10 +2,11 @@ package com.yf.generator.tools;
 
 
 
+import com.yf.generator.Contants;
 import com.yf.generator.domain.DataColumn;
 import com.yf.generator.domain.DataRow;
 import com.yf.generator.domain.DataTable;
-import com.yf.generator.utils.Contants;
+
 
 import java.sql.*;
 import java.util.ArrayList;
