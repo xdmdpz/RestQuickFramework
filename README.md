@@ -7,6 +7,7 @@
 - 优化了下代码
 - 优化了下代码生成器
 - 加入了 Lombok 
+- 替换工具类使用hutool
 - 更改文件上传 不与数据库强关联
 
 ## 0823更新说明
@@ -24,6 +25,8 @@
 - Spring MVC 
 - Spring Data Jpa
 - lombok 
+- hutool
+- 
 - velocity 代码生成
 
 ### 为啥要整这个项目
